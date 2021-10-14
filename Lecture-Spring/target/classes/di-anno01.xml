@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+							http://www.springframework.org/schema/beans/spring-beans.xsd 
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context.xsd">
+							
+	<context:annotation-config />
+	
+	
+	<!-- type 매칭이우선, id가 그다음! -->
+	<bean class="di.anno01.HankookTire" id="hankook" />	<!-- 2 -->
+	<!-- bean class="di.anno01.KumhoTire" id="tire" /> --> <!-- 1 -->
+	<bean class="di.anno01.NexenTire" id="tire" /> <!-- NexenTire 는 Tire 상속받고 있지 않음 -->
+	<bean class="di.anno01.Car" id="car" />
+</beans>

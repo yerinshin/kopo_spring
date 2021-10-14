@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board.BoardDAO">
+
+	<sql id="selectBoard">
+		select no, title, writer, view_cnt
+			, to_char(reg_date,'yyyy-mm-dd') reg_date
+		from t_board
+	</sql>
+	
+	<insert id="newBoard" parameterType="boardVO">
+		insert into t_board(no, title, writer, content)
+			values(seq_t_board_no.nextval, #{title}, #{writer}, #{content}) <!-- #{title} : getTitle 역할 -->
+	<!-- 	 values(seq_t_board_no.nextval, '${title}', '${writer}', '${content}') -->
+	</insert>
+	
+	<resultMap type="boardVO" id="boardMap">
+		<result column="view_cnt" property="viewCnt" />
+		<result column="reg_date" property="regDate"/>
+	</resultMap>
+	
+	<select id="selectAllMap" resultMap="boardMap">
+		select no, title, writer, content, view_cnt
+		  	, to_char(reg_date, 'yyyy-mm-dd') reg_date
+			from t_board
+		order by no desc
+	</select>
+	
+	<select id="selectAll" resultType="boardVO">
+		select no, title, writer, content, view_cnt as viewCnt
+			, to_char(reg_date, 'yyyy-mm-dd') as regDate 
+			from t_board
+		order by no desc
+	</select>
+	
+	<select id="selectOne" resultMap="boardMap" parameterType="boardVO">
+			select no, title, writer, view_cnt
+			, to_char(reg_date, 'yyyy-mm-dd') reg_date
+			from t_board
+			where no = #{no}
+	</select>
+
+	<select id="selectOne2" resultMap="boardMap" parameterType="int">
+		select no, title, writer, content, view_cnt
+			, to_char(reg_date,'yyyy-mm-dd') reg_date
+		from t_board
+		where no = #{no}
+	</select>
+
+	<select id="selectOne3" resultMap="boardMap" parameterType="int">
+		<include refid="selectBoard" />
+		where no = #{no}
+	</select>
+	
+	<select id="selectOne4" resultType="hashmap" parameterType="int">
+		select no, title, writer, content, view_cnt
+			, to_char(reg_date,'yyyy-mm-dd') reg_date
+		from t_board
+		where no = #{no}
+	</select>
+
+	<select id="selectNos" resultMap="boardMap" parameterType="boardVO">
+		<include refid="selectBoard" />
+		where no in
+		<foreach collection="nos" item="bno" open="(" close=")" separator=",">
+			#{bno}
+		</foreach>
+	</select>
+	
+	<select id="selectNos2" resultMap="boardMap" parameterType="list"> <!-- java.util.List 은 list 로 쓸 수 o -->
+		<include refid="selectBoard" />
+		where no in
+		<foreach collection="list" item="bno" open="(" close=")" separator=",">
+			#{bno}
+		</foreach>
+	</select>
+	
+
+	<select id="selectNos3" resultMap="boardMap" parameterType="int[]">
+		<include refid="selectBoard" />
+		where no in
+		<foreach collection="array" item="bno" open="(" close=")" separator=",">
+			#{bno}
+		</foreach>
+	</select>
+	
+	
+	<select id="selectWhere" parameterType="string" resultMap="boardMap">
+		<include refid="selectBoard" />
+		where title like '${title}%'
+		<!-- 
+		#: preparedStatement 
+		$: Statement -> 작은 따옴표('') 필요 : like문법 쓰려면 statement로 사용
+		-->
+	</select>
+	
+	<select id="selectWhere2" parameterType="boardVO" resultMap="boardMap">
+		<include refid="selectBoard" />
+		<where>
+			<if test="title != null">
+			title like'${title}%'
+			</if>
+			<if test="writer != null">
+			and writer =#{writer}
+			</if>
+		</where>
+	</select>
+	
+	<update id="update" parameterType="boardVO">
+		update t_board set content= #{content} where writer= #{writer}
+	</update>
+	
+	<update id="update2" parameterType="boardVO">
+		update t_board set content= #{content} where no in
+		<foreach collection ="nos" item="bno" open="(" close=")" separator=",">
+			#{bno}
+		</foreach>
+	</update>
+	
+	<!-- 
+	<update id="update3" parameterType="map">
+		update t_board set 
+		<foreach index="key" item="value" collection ="_parameter.entrySet()" separator=",">
+			 content= #{value} 
+			 where no in #{key}
+		</foreach>
+	</update>
+	 -->
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

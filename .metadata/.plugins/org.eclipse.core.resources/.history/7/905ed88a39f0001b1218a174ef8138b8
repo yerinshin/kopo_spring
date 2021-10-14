@@ -1,0 +1,23 @@
+package di.java;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class Config {
+	
+	@Bean
+	public Car car() {
+		return new Car();
+	}
+	
+	@Bean
+	public Tire hankookTire() {
+		return new HankookTire();
+	}
+	
+	@Bean
+	public Tire kumhoTire() {
+		return new KumhoTire();
+	}
+}

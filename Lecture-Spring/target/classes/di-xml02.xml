@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd ">
+	<bean class="di.xml02.HankookTire" id="hankook" />
+	<bean class="di.xml02.KumhoTire" id="kumho" />
+ 	
+	<bean class="di.xml02.Car" id="car"> 
+		<constructor-arg ref="hankook" />
+	</bean>
+	
+	<!-- bean으로 ref의 instance객체 , constructor-arg로 매개변수 설정 -->
+	<!-- new Car(new HankookTire(), new KumhoTire()) -->
+	<bean class="di.xml02.Car" id="car2">
+		<constructor-arg ref="hankook" />
+		<constructor-arg ref = "kumho" />
+	</bean>
+	<!-- new Car(new HankookTire(), String str) -->
+	<bean class="di.xml02.Car" id="car3">
+		<constructor-arg value="hello" index="1" />
+<!-- 		<constructor-arg value="hello" index="1" type="java.lang.String" /> -->
+		<constructor-arg ref="kumho" index="0" />
+	</bean>
+	
+	<!-- 
+	//Test 클래스가 이럴때, 
+	class Test {
+		private List<String> list;
+		private Map<String, String> map;
+		
+		public void setList(List<String> list) {
+			this.list =list;
+		}
+		public void setMap<Map<String, String> map {
+			this.map = map;
+		}
+	} 
+	
+	
+	//의존주입 방법
+	<bean class="di.collection.Test" id="test">
+	 //1. setList(List<String> list) 	
+		<property name = "list">
+			<list>
+				<value>aaa</value>
+				<value>bbb</value>
+				<value>ccc</value>
+			</list>
+		</property>
+	
+	 // 2. setMap 
+	 	<property name="map">
+	 		<map>
+	 			<entry>
+	 				<key>hong</key>
+	 				<value>홍길동</value>
+	 			</entry>
+	 			<entry>
+	 				<key>park</key>
+	 				<value>박길동</value>
+	 			</entry>
+	 		</map>
+	 	</property>
+	 </bean>
+	 -->
+</beans>

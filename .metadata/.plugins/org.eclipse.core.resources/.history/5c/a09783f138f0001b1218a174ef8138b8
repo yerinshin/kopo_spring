@@ -1,0 +1,24 @@
+package di.java;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Car {
+//	@Autowired
+	private Tire tire;
+
+	public Car() {	
+		System.out.println("Car()...");
+	}
+	
+//	@Resource(name="hankookTire")
+	public void setTire(Tire tire) {
+		this.tire = tire;
+		System.out.println("setTire()...");
+	}
+	
+	public void prnTireBrand() {
+		System.out.println("장착된 타이어 : " + tire.getBrand());
+	}
+	
+}

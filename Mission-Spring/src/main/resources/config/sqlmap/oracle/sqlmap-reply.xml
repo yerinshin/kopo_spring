@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply.ReplyDAO">
+	<resultMap type="replyVO" id="replyMap">
+		<result column="board_no" property="boardNo" />
+		<result column="reg_date" property="regDate" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="ReplyVO">
+		insert into t_reply(no, board_no, content, writer) 
+			values(seq_t_reply_no.nextval, #{boardNo}, #{content},#{writer} )
+	</insert>
+	
+	<select id="selectByBoardNo" resultMap="replyMap" parameterType="int" >
+		select no, content, writer, to_char( reg_date, 'mm-dd hh:mi') as reg_date 
+			from t_reply  
+		where board_no = #{no}
+		order by reg_date desc
+	</select>
+	
+</mapper>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> 
+	<link rel="stylesheet" href="http://localhost:9998/Hana-Project/resources/template/css/bootstrap.min.css">
+    <!-- style CSS
+		============================================ -->
+    <link rel="stylesheet" href="http://localhost:9998/Hana-Project/resources/template/css/style.css">
+    <link rel="stylesheet" href="http://localhost:9998/Hana-Project/resources/css/style.css">
+    <link rel="stylesheet" href="http://localhost:9998/Hana-Project/resources/css/email.css">
+
+	<script type="text/javascript"> 	
+	var oldTab = [ 1, 1 ];
+		function tabShowHideFunc(t, n, b) { // t = this, n = x번째 탭, b = 탭아닌 버튼으로 탭 컨트롤시..
+			var gStr = t.href.split('.html#')[1]; 		
+		if (!gStr) {
+				gStr = t.href.split('.htm#')[1]; 			
+				if (!gStr) {
+					gStr = t.href.split('#')[1]; 			} 		}
+			gStr1 = gStr.substr(0, gStr.length - 1);
+			var gNum = (t.href).substr((t.href).length - 1, (t.href).length); 
+			if (arguments[2] != undefined) {
+				if (arguments[2] == 'btn') {
+					document.getElementById("email").getElementsByTagName("li")[gNum - 1]
+							.getElementsByTagName("a")[0].click();
+					document.documentElement.scrollTop = 0;
+					document.body.scrollTop = 0;
+				} else if (arguments[2] == 'slide') {
+					document.getElementById("email").getElementsByTagName("li")[3]
+							.getElementsByTagName("a")[0].click();
+					setTimeout(function() {
+						var targetPos = document.getElementById(gStr).offsetTop;
+						window.scroll(0, targetPos); 				}, 200);
+				} else if (arguments[2] == 'voice') {
+					document.getElementById("email").getElementsByTagName("li")[3]
+							.getElementsByTagName("a")[0].click();
+					setTimeout(function() {
+						var targetPos = document.getElementById(gStr).offsetTop;
+						window.scroll(0, targetPos); 				}, 200);
+				} else if (arguments[2] == 'revolg') {
+					document.getElementById("email").getElementsByTagName("li")[3]
+							.getElementsByTagName("a")[0].click();
+					setTimeout(function() {
+						var targetPos = document.getElementById(gStr).offsetTop;
+						window.scroll(0, targetPos); 				}, 200);
+				} else if (arguments[2] == 'revol') {
+					document.getElementById("email").getElementsByTagName("li")[1]
+							.getElementsByTagName("a")[0].click();
+					setTimeout(function() {
+						var targetPos = document.getElementById(gStr).offsetTop;
+						window.scroll(0, targetPos); 				}, 200);
+				} else if (arguments[2] == 'minus') {
+					document.getElementById("email").getElementsByTagName("li")[3]
+							.getElementsByTagName("a")[0].click();
+					setTimeout(function() {
+						var targetPos = document.getElementById(gStr).offsetTop;
+						window.scroll(0, targetPos); 				}, 200);
+				} 		} else {
+				t.parentNode.className = "on col-md-4";
+				document.getElementById(gStr1 + gNum).style.display = "block";
+				if (oldTab[n - 1] != gNum) {
+					t.parentNode.parentNode.getElementsByTagName("li")[oldTab[n - 1] - 1].className = "col-md-4";
+					document.getElementById(gStr1 + oldTab[n - 1]).style.display = "none";
+				} 			oldTab[n - 1] = gNum; 		
+				} 	
+			}
+
+		</script> 
+		<script> 	
+		$(document).ready(function() {
+			$(".ac-label").click(function(e) { 			
+				e.preventDefault();
+				$check = $(this).prev(); 			
+				if ($check.prop('checked'))
+					$check.prop("checked", false); 			
+				else
+					$check.prop("checked", true); 		
+				}); 
+
+			});
+	</script> 
+
+</head>
+<body>
+<div class="div-body container">
+
+<div class="header-div"> 			
+	<img style="height : 120px;" src="hanalogo.png">
+</div>
+<div class="content" id="content" >
+	
+	<h1 id="h1"> 2021년 09월<span style="font-size : 18pt"> &nbsp;&nbsp;&nbsp;하나로통장 월간 금융 리포트 </span></h1> 
+	
+	<!-- 탭 선택 -->
+	<ul class="mailGuideTab tab3 emailTab row" id="email">
+	
+		<li class="on col-md-4"><a href="#email01" onclick="tabShowHideFunc(this,1); return false;">요약</a></li>
+		<li class="col-md-4"><a href="#email02" onclick="tabShowHideFunc(this,1); return false;">09월 소비</a></li>
+		<li class="col-md-4"><a href="#email03" onclick="tabShowHideFunc(this,1); return false;">도전 현황</a></li>
+	</ul>
+	
+	<!----------------------------------------- 첫번째 탭 ---------------------------------------------->
+	<div class="select-div" id="email01" style="display: block;">
+	
+		<span class="span-big"> 강하나님</span> 
+		하나은행을 이용해주셔서 감사합니다.<br>
+09월 하나로 통장 금융 리포트입니다.
+		
+		<div id="accountInfo">
+			상품명 : 하나로 통장 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;계좌번호 : 153-310453-12304</div>
+	      
+	     <div class="title"> 예산 구성</div>
+	     	
+	     	<div class="row">
+	     	<div class="col-md-6 piechart">
+			   <canvas height="140vh" width="180vw" id="pieChart"></canvas>
+			</div>
+			<div class="col-md-6">
+					<div style="margin-left : 30px;">
+					2021년 9월 수입 : 2,532,638원<br>
+					2021년 9월 지출 : 1,982,500원
+					</div>
+				<table style="width : 100%; height : 230px; margin-top : 15px; border :1px solid #dddddd">
+					<tr style="background : #dddddd">
+					<td>분류</td>
+					<td>실제 지출/저축 금액</td>
+					<td>전달 대비<td>
+					</tr>
+					<tr>
+					<td>고정지출</td>
+					<td>700,100원</td>
+					<td> 1% 감소</td>
+					</tr>
+					<tr>
+					<td>생활비</td>
+					<td>918,360원</td>
+					<td> 28% 감소</td>
+					</tr>
+					<tr>
+					<td>비상금</td>
+					<td>741,561원</td>
+					<td>41% 증가</td>
+					</tr>
+				</table>
+				
+			</div>
+	     	</div>
+	     	 <div class="title"> 예산 비교</div>
+	 		<div id="menu-title"> 내 또래 평균 예산</div>
+
+				    <!-- Bar Chart area End-->
+				    <div class="bar-chart-area">
+				        <div class="container">
+				       		<div class="row">
+				             	
+				                <div class="col-md-6">
+				                    <div class="bar-chart-wp sm-res-mg-t-30 chart-display-nn">
+				                        <canvas height="110vh" width="180vw" id="barchart1"></canvas>
+				                    </div>
+				                </div>
+				                 
+				                  <div class ="feedback-text col-md-4" style="font-size : 25px; padding-top : 80px;"> 
+				                  	20대 또래 사용자보다<br>
+					                  <q> 생활비는
+					                  <b style="font-size : 32px;"> 42만원 많이 </b>쓰고
+					                  <br>저축은 
+					                  <b style="font-size : 32px;"> 17만원 적게 </b>해요 </q>
+				                  </div>
+				       
+				            </div>
+			
+				        </div>
+				    </div>
+				    <!-- Bar Chart area End-->
+												 
+					<div id="menu-title"> 비슷한 급여 사용자 평균 예산 </div>
+				 								  <div class="bar-chart-area">
+				        <div class="container">
+				           <div class="row">
+				         
+				                <div class="col-md-6">
+				                    <div class="bar-chart-wp sm-res-mg-t-30 chart-display-nn">
+				                        <canvas height="110vh" width="180vw" id="barchart2"></canvas>
+				                    </div>
+				                </div>
+				                <div class ="feedback-text col-md-4" style="font-size : 25px; padding-top : 80px;"> 
+				                  	비슷한 급여의 사용자보다<br>
+					                  <q> 생활비는
+					                  <b style="font-size : 32px;"> 21만원 많이 </b>쓰고
+					                  <br>저축은 
+					                  <b style="font-size : 32px;"> 60만원 적게 </b>해요 </q>
+				                  </div>
+				            </div>
+				 	
+				        </div>
+				    </div>
+
+
+	</div>
+	
+	<!----------------------------------------- 두번째 탭 ---------------------------------------------->
+	<div class="select-div" id="email02" style="display: none;">
+		
+		<div class="title"> 08월 달성 Title</div>
+		<div class="service" style="margin-left : 70px;">  
+	      <div class="row">
+	       		
+	       		<div class="col-md-3">
+	           	<div class="service-box account-add-box" id="add-box">
+	           		카페인 중독자<br> #카페
+	           	</div> 
+	           </div>
+	        <div class="col-md-5">
+	           <div class="service-box account-add-box" id="add-box">
+					지름신<br> #쇼핑        
+	           </div> 
+	        </div>
+	        <div class="col-md-3">
+	           <div class="service-box account-add-box" id="add-box">
+	           		내 발은 소중해 <br> #택시
+	           </div> 
+	        </div>
+	      	
+	        
+	          
+	        </div>
+	      </div>
+		
+		
+		
+		<div class="row">
+		<div class="col-md-6">
+		<div class="title " style="padding-bottom : 0px">08월 큰 지출</div>
+				<h4 style="font-size : 20px; margin-bottom : 30px ">충동적인 소비가 아니었는지 되돌아보세요!</h4>
+				<table style="text-align : left; border-right : 2px solid #dddddd; height : 160px">
+				<tr>
+					<th>TOP1</th>
+					<td>나이키현대아울렛</td>
+					<td>173,900원</td>
+					</tr>
+					<tr>
+					<th>TOP2</th>
+					<td>스타일난다</td>
+					<td>114,500원</td>
+					</tr>
+					<tr>
+					<th>TOP3</th>
+					<td>하이채널안경원</td>
+					<td>89,000원</td>
+				</tr>
+				</table>
+			</div>
+				<div class="col-md-6">
+					<div class="title " style="padding-bottom : 0px">08월 잦은 지출</div>
+					<h4 style="font-size : 20px; margin-bottom : 30px">습관적인 방문으로 인한 소비가 아닌지 확인하세요!</h4>
+				<table style="height : 160px; margin-bottom: 30px">
+				<tr>
+					<th>TOP1</th>
+					<td>올리브영연세로점</td>
+					<td>7회</td>
+					</tr>
+					<tr>
+					<th>TOP2</th>
+					<td>안녕주얼리영등포</td>
+					<td>3회</td>
+					</tr>
+					<tr>
+					<th>TOP3</th>
+					<td>GS25신촌사랑점</td>
+					<td>3회</td>
+				</tr>
+				</table>
+				</div>		
+				</div>		
+	<!-- 아코디언.. -->
+	<div class="title"> 가장 많이 소비한 날</div>
+				<div class="accordion-stn">
+                    <div class="panel-group" data-collapse-color="nk-green" id="accordionGreen" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-collapse notika-accrodion-cus">
+                            <div class="panel-heading" role="tab">
+                                <h4 class="panel-title">
+                                    <a style="font-size :22px" data-toggle="collapse" data-parent="#accordionGreen" href="#accordionGreen-one" aria-expanded="false" class="collapsed">
+				TOP1   2021년 08월 28일
+			</a>
+                                </h4>
+                            </div>
+                            <div id="accordionGreen-one" class="collapse" role="tabpanel" aria-expanded="false" style="height: 0px;">
+                                <div class="panel-body">
+   									<table>
+   									<tr>
+   										<td>1</td>
+   									
+   										<td>CGV온라인예매</td>
+   										<td>24000원</td>
+   										
+   									<tr>
+   									<tr>
+   										<td>2</td>
+   									<td>나이키현대아울렛</td>
+   										<td>173,900원</td>
+   									<tr>
+   									<tr>
+   										<td>3</td>
+   										<td>서강곱창</td>
+   										<td>31900원</td>
+   									<tr>
+   									</table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-collapse notika-accrodion-cus">
+                            <div class="panel-heading" role="tab">
+                                <h4 class="panel-title">
+                                    <a style="font-size :22px" class="collapsed" data-toggle="collapse" data-parent="#accordionGreen" href="#accordionGreen-two" aria-expanded="false">
+				TOP2   2021년 08월 22일
+			</a>
+                                </h4>
+                            </div>
+                            <div id="accordionGreen-two" class="collapse" role="tabpanel" aria-expanded="false" style="height: 0px;">
+                                 <div class="panel-body">
+   									<table>
+   									<tr>
+   										<td>1</td>
+   										<td>네이버파이낸셜(주)</td>
+   										<td>37090원</td>
+   									<tr>
+   									<tr>
+   										<td>2</td>
+   										<td>올리브영연세로점</td>
+   										<td>16500원</td>
+   									<tr>
+   									<tr>
+   										<td>3</td>
+   										<td>무쇠김치삽겹</td>
+   										<td>41000원</td>
+   									<tr>
+   									</table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-collapse notika-accrodion-cus">
+                            <div class="panel-heading active" role="tab">
+                                <h4 class="panel-title">
+                                    <a style="font-size :22px" class="" data-toggle="collapse" data-parent="#accordionGreen" href="#accordionGreen-three" aria-expanded="true">
+				TOP2   2021년 08월 04일
+			</a>
+                                </h4>
+                            </div>
+                            <div id="accordionGreen-three" class="collapse in" role="tabpanel" aria-expanded="true" style="">
+                                 <div class="panel-body">
+   									<table>
+   									<tr>
+   										<td>1</td>
+   										<td>GS25신촌사랑점</td>
+   										<td>9900원</td>
+   									<tr>
+   									<tr>
+   										<td>2</td>
+   										<td>꽁티드툴레아</td>
+   										<td>39900원</td>
+   									<tr>
+   									<tr>
+   										<td>3</td>
+   										<td>송미영가정의학과</td>
+   										<td>25600원</td>
+   									<tr>
+   									</table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- 아코디언 end -->
+	
+</div>
+	<!----------------------------------------- 세번째 탭 ---------------------------------------------->
+	<div class="select-div" id="email03" style="display: none;">  	
+		<div class="title"> 09월 도전 결과 </div>
+			
+           <h2 class="challengeTotal"> 09월 도전하기 패널티로 <br>
+           <br>비상금에 총 25,020원이 저축되었습니다.</h2>
+		<div class="service">  
+	      <div class="row">
+	      <div class="col-md-6">
+                  <div class="service-box account-box challenge">
+                  <div class="row">
+                   <h2 id="nickname" class="col-md-9"> 
+                     카페줄이기
+                  </h2>
+                  <h3 class="col-md-2" id="penalty-box">
+                     20%
+                  </h3>
+                
+                  </div>
+            	<div class="challengeResult">성공</div>
+                  <div class="row">
+                  	<div class="col-md-6">지출액</div>
+                  	<div class="col-md-6">목표금액</div>
+                  	
+                  </div>
+                  <div class="row">
+                     <h2 id="balance" class="col-md-6">
+                    	 41,800
+                      </h2>
+                     <h2 id="balance" class="col-md-6">
+                    	 45,000원
+                      </h2>
+                  </div>
+                  </div>
+	           </div>
+	           	<div class="col-md-6">
+                  <div class="service-box account-box challenge">
+                  <div class="row">
+                   <h2 id="nickname" class="col-md-9"> 
+                     교통비줄이기
+                  </h2>
+                  <h3 class="col-md-2" id="penalty-box">
+                     30%
+                  </h3>
+                
+                  </div>
+            	<div class="challengeResult">성공</div>
+                  <div class="row">
+                  	<div class="col-md-6">지출액</div>
+                  	<div class="col-md-6">목표금액</div>
+                  	
+                  </div>
+                  <div class="row">
+                     <h2 id="balance" class="col-md-6">
+                    	 52,500
+                      </h2>
+                     <h2 id="balance" class="col-md-6">
+                    	 80,000원
+                      </h2>
+                  </div>
+                  </div>
+	           </div>
+			<div class="col-md-6">
+                  <div class="service-box account-box challenge">
+                  <div class="row">
+                   <h2 id="nickname" class="col-md-9"> 
+                     쇼핑줄이기
+                  </h2>
+                  <h3 class="col-md-2" id="penalty-box">
+                     30%
+                  </h3>
+                
+                  </div>
+            	<div class="challengeResult" style="background : red">실패</div>
+                  <div class="row">
+                  	<div class="col-md-6">지출액</div>
+                  	<div class="col-md-6">목표금액</div>
+                  	
+                  </div>
+                  <div class="row">
+                     <h2 id="balance" class="col-md-6">
+                    	 313,500
+                      </h2>
+                     <h2 id="balance" class="col-md-6">
+                    	 230,000원
+                      </h2>
+                  </div>
+                  </div>
+           </div>
+		
+			
+	           </div>         
+           </div>
+
+           
+	</div>
+</div>
+</div>
+</body>
+<script>
+(function ($) {
+	 "use strict";
+
+		var ctx = document.getElementById("pieChart")
+		var pieChart = new Chart(ctx, {
+		    type: 'pie',
+		    data: {
+		    	labels: [
+		    	    '기본금',
+		    	    '생활비',
+		    	    '비상금'
+		    	  ],
+		    	  datasets: [{
+		    	    label: 'My First Dataset',
+		    	    data: [730000,1200000,570000],
+		    	    backgroundColor: [
+		    	      'rgba(52, 152, 219, 0.5)',
+		    	      'rgba(243, 156, 18, 0.5)',
+		    	      'rgba(231, 76, 60, 0.5)',
+		    	   
+		    	    ],
+		    	 
+		    	  }]
+		    },
+		 
+		});
+		
+		
+		//---------------------------------------------------------
+		/*----------------------------------------*/
+		/*  2.  Bar Chart vertical
+		/*----------------------------------------*/
+		var ctx = document.getElementById("barchart1");
+		
+	
+		
+		var barchart1 = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: ["기본금", "생활금", "비상금"],
+				datasets: [{
+	                label: '또래 사용자',
+					data: [56.8, 79.8, 73.8],
+				
+					    backgroundColor:
+		                	'#d6d5d5',
+						borderColor: 
+							'#d6d5d5',
+						borderWidth: 1
+					
+	            }, {
+	                label: '나',
+					data: [73,  90, 87],
+					    backgroundColor:
+		                	'rgb(75, 192, 192,0.8)',
+						borderColor: 
+							'rgb(75, 192, 192)',
+						borderWidth: 1
+	            }]
+			},
+			options: {
+				responsive: true,
+					scales: {
+					yAxes: [{
+						ticks: {
+							min : 20,
+							position: 'top',
+							fontSize: 18,
+						}
+					}],
+			xAxes:[{
+				  ticks:{
+				  fontColor:'black',
+				  fontSize: 18,
+				 }
+				}]
+				},
+				 legend: {
+		               	labels : {
+		               		fontSize : 22,          	
+		               	}
+	               	},
+				title: {
+					display: false,
+					
+				}
+			}
+		});
+		
+		
+		/*----------------------------------------*/
+		/*  2.  Bar Chart vertical
+		/*----------------------------------------*/
+		var ctx = document.getElementById("barchart2");
+		var barchart2 = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: ["기본금", "생활금", "비상금"],
+				datasets: [{
+	                label: '비슷한 급여 사용자',
+					data: [62, 99.2,116.7],
+					borderWidth: 1,
+					   backgroundColor:
+		                	'#d6d5d5',
+						borderColor: 
+							'#d6d5d5',
+						borderWidth: 1
+	
+	            }, {
+	                label: '나',
+					data: [73, 90, 87],
+					 	backgroundColor:
+		                	'rgb(75, 192, 192,0.8)',
+						borderColor: 
+							'rgb(75, 192, 192)',
+						borderWidth: 1
+	            }]
+			},
+			options: {
+				responsive: true,
+					scales: {
+					yAxes: [{
+						ticks: {
+							min : 20,
+							position: 'top',
+							fontSize: 18,
+							
+						}
+					}],
+					xAxes:[{
+						  ticks:{
+						  fontColor:'black',
+						  fontSize: 18,
+						 }
+						}]
+
+				},
+				 legend: {
+	               	labels : {
+	               		fontSize : 22,          	
+	               	}
+               	},
+				title: {
+					display: false,
+					
+				}
+			}
+		});
+		
+		
+		
+		
+		
+})(jQuery); 
+</script>
+
+	<script src="http://localhost:9998/Hana-Project/resources/template/js/plugins.js"></script>
+ 	<script src="http://localhost:9998/Hana-Project/resources/template/js/charts/Chart.js"></script>
+	<script src="http://localhost:9998/Hana-Project/resources/template/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="http://localhost:9998/Hana-Project/resources/template/js/bootstrap.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</html>

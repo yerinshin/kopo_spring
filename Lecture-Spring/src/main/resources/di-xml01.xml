@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd ">
+	<bean class="di.xml01.Car" id="car" />
+	<bean class="di.xml01.HankookTire" id="tire" />
+	
+	<bean class="di.xml01.HankookTire" id="hankook"></bean>
+	<bean class="di.xml01.KumhoTire" id="kumho"></bean>
+	
+	<bean class="di.xml01.Car" id="car2">
+		<!-- setTire 자동 주입  : name="tire" 로 설정 -->
+		<property name="tire" ref="hankook" />
+		
+		<!--  setter 여러개일 경우, property 추가
+		<property name="frontL" ref="kumho" />
+		 -->
+
+	</bean>
+</beans>

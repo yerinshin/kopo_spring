@@ -1,0 +1,13 @@
+package di.java;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class Config {
+	
+	public HankookTire hankookTire() {
+
+		return new HankookTire();
+		
+	};
+}

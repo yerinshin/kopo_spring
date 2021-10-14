@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+							http://www.springframework.org/schema/beans/spring-beans.xsd 
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context.xsd
+							http://www.springframework.org/schema/aop
+							http://www.springframework.org/schema/aop/spring-aop.xsd">						
+							
+	<context:annotation-config />
+	<aop:aspectj-autoproxy />
+
+		
+		<!-- <bean class="homework.aop.Man" id="man" />
+		<bean class="homework.aop.MyAspect" id="myAspect" />
+		
+		<aop:config>
+		<aop:aspect ref="MyAspect">
+			<aop:after method="printAudultOrMinor" pointcut="execution( * homework.aop.Man.setAge())" />
+		</aop:aspect>
+		</aop:config>	 -->				
+	<context:component-scan base-package="homework.aop" />
+							
+</beans>

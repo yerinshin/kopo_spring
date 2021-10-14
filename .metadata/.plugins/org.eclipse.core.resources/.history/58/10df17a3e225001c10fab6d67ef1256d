@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dashBoard.DashBoardDAO">
+
+	
+	<resultMap type="splitHistoryVO" id="splitHistoryMap">
+		<result column="split_history_code" property="code" />
+		<result column="account_no" property="accountNo"/>
+		<result column="transaction_code" property="transCode"/>
+		<result column="split_from" property="splitFrom"/>
+		<result column="split_to" property="splitTo"/>
+		<result column="trans_money" property="transMoney"/>
+		<result column="transaction_date" property="transDate"/>
+		<result column="split_date" property="transDate"/>
+		<result column="memo" property="memo"/>
+	</resultMap>
+	
+	<!-- <resultMap type="fixedExpenseVO" id="fixedExpenseMap">
+		<result column="fixed_transfer_list_code" property="code" />
+		<result column="account_no_to_transfer" property="accNoToTransfer"/>
+		<result column="transfer_info" property="expenseInfo"/>
+		<result column="trans_money" property="transMoney"/>
+		<result column="transfer_date" property="transDate"/>
+		<result column="my_acc_no" property="myAccNo"/>
+	</resultMap>
+	
+
+	<resultMap type="autoSplitVO" id="autoSplitMap">
+		<result column="account_no" property="accountNo" />
+		<result column="money_to_consumption" property="moneyToConsumption" />
+		<result column="money_to_saving" property="moneyToSaving" />
+		<result column="split_date" property="splitDate" />
+	</resultMap> -->
+	
+	
+	<!-- 내 예산 구성 select -->
+	<select id="myMonthlySplit" parameterType="string" resultType="monthlyBudgetVO">
+		select money_to_consumption as consumption, money_to_saving as saving 
+			from tbl_auto_split 
+		where account_no= #{accountNo}
+	</select>
+	
+	<!-- 내 한달 고정 지출액 조회(기본금) -->
+	<select id="myMonthlyFixedExpense" parameterType="string" resultType="monthlyBudgetVO">
+		select sum(trans_money) as fixedExpense 
+			from fixed_transfer_list 
+		where my_acc_no= #{accountNo}
+	</select>
+	
+	<!-- 또래 예산 구성 select -->
+	<select id="agesAvgSplit" parameterType="int" resultType="monthlyBudgetVO">
+		select AVG(MONEY_TO_CONSUMPTION) as consumption, AVG(MONEY_TO_SAVING) as saving 
+		from tbl_auto_split 
+		where account_no IN 
+				(select account_no FROM TBL_ACCOUNT where user_id IN
+						(select id 
+						from tbl_member 
+						where trunc(to_char(sysdate, 'rrrr')
+							- to_char(to_date(ss1), 'rrrr'), -1) = #{ageGroup}))
+	</select>
+	
+	<!-- 또래 한달 고정 지출액 조회(기본금) (만원까지 표시)-->
+	<select id="agesAvgFixedExpense" parameterType="int" resultType="monthlyBudgetVO">
+		select trunc(AVG(SUM(trans_money)), -3) as fixedExpense
+		from fixed_transfer_list where my_acc_no 
+			IN (select account_no from tbl_account where user_id IN
+					(select id from tbl_member 
+					where trunc(to_char(sysdate, 'rrrr') 
+						- to_char(to_date(ss1), 'rrrr'), -1) = #{ageGroup}) and account_type ='하나로통장') 
+		group by my_acc_no
+	</select>
+	
+	<!-- 최근 6개월 달별 저축액 -->
+	<select id="monthlySaving" parameterType="string" resultMap="splitHistoryMap">
+		select split_date, sum(trans_money) as trans_money , split_to 
+			from (select to_char(transaction_date, 'yyyy/mm') as split_date, split_from, split_to, sum(trans_money) as trans_money 
+						from tbl_split_history
+       		 				where account_no=#{accountNo} and (split_from='saving_balance' or split_to='saving_balance') and (to_char(transaction_date, 'yyyy/mm') between to_char(add_months(sysdate, -6), 'yyyy/mm') and to_char(sysdate, 'yyyy/mm'))
+       				group by split_to, split_from, to_char(transaction_date, 'yyyy/mm')) 
+       	group by split_date, split_to order by split_date
+	</select>
+	
+	<!-- 검색필터 and 사용자 조건 맞는 예/적금 list -->
+	<select id="savingProductList" parameterType="productSearchInfoVO" resultType="savingProductVO">
+		select s.name as name, s.min_age as minAge, s.max_age as maxAge, s.available_member as availableMember, s.min_money as minMoney, s.max_money as maxMoney, s.p_desc as description, s.p_option as optionCheck, 
+		    to_char(r.interest_rate, 'fm0.00') as interestRate, to_char(max_preferential_rate, 'fm0.0') as maxPRate, r.min_period as minPeriod, r.max_period as maxPeriod
+		from tbl_saving_product s, tbl_interest_rate r 
+		    where s.name = r.product_name 
+	            and type=#{type}              
+	            and #{age} between s.min_age and s.max_age     
+	            and #{savingMoney} between min_money and max_money  
+	            and #{period} between min_period and max_period   
+	        order by interestRate desc
+	</select>
+	
+	<!-- 상품 별 우대금리 list -->
+	<select id="pRateList" parameterType="string" resultType="preferentialRateVO">
+		select condition, preferential_rate as rate 
+			from tbl_preferential_condition 
+		where product_name=#{name}
+	</select>
+	
+</mapper>

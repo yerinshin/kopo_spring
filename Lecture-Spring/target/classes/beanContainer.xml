@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd ">
+	<!-- Hello hello = new Hello() -->
+	<bean class="basic.Hello" id="hello"/>	<!-- Application context 에서 컨테이너 xml 읽는 순간 담는 순간 객체 생성 -->
+	<bean class="basic.Hello" id="hello2" lazy-init="true"/>  <!-- lazi-init : getBean()으로 불러올때 Hello 객체 생성 -->
+	
+</beans>
